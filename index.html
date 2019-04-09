@@ -7,9 +7,9 @@
 <style>
 .wrapper {
 	overflow: hidden;
-	width:800px;
-	height:600px;
-	border:1px solid grey;
+	width: 800px;
+	height: 500px;
+	border: 1px solid grey;
 }
 .divClass {
 	background-color: #f2f2f2;
@@ -20,89 +20,84 @@
 	padding: 10px;
 	margin: 10px;
 }
-
 .divClass:hover {
 	background-color: #ddd;
 }
-
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	display: none; /* Hidden by default */;
+	position: fixed; /* Stay in place */;
+	z-index: 1; /* Sit on top */;
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */;
+	height: 100%; /* Full height */;
+	overflow: auto; /* Enable scroll if needed */;
+	background-color: rgb(0,0,0); /* Fallback color */;
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+	background-color: #fefefe;
+	margin: 15% auto;
+/* 15% from the top and centered */	padding: 20px;
+	border: 1px solid #888;
+	width: 80%; /* Could be more or less, depending on screen size */
 }
-
 /* The Close Button */
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
 }
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
 }
 #customers {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
 }
-
 #customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
+	border: 1px solid #ddd;
+	padding: 8px;
 }
-
 #customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
+#customers tr:hover {
+	background-color: #ddd;
+}
 #customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #0072C6;
-  color: white;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: #0072C6;
+	color: white;
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper"><h1 style="padding-bottom:30px;">AWS Single View Dashboard</h1>
-
+<div class="wrapper">
+	<h1 style="padding-bottom: 30px;">AWS Single View Dashboard</h1>
 </div>
 <!-- The Modal -->
 <div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close" onclick="javascript:document.getElementById('myModal').style.display = 'none';">&times;</span>    
-    <div id="tableDiv"></div>
-  </div>
-
+	<!-- Modal content -->
+	<div class="modal-content">
+		<span class="close" onclick="javascript:document.getElementById('myModal').style.display = 'none';">
+		×</span>
+		<div id="tableDiv">
+		</div>
+	</div>
 </div>
 <script>
+setTimeout(function() {
+  location.reload();
+}, 30000);
 function GetSortOrder(prop) {  
     return function(a, b) {  
         if (a[prop] > b[prop]) {  
@@ -113,6 +108,52 @@ function GetSortOrder(prop) {
         return 0;  
     }  
 } 
+
+function transformData(obj) {
+ for(var i=0;i<obj.length;i++)
+ {
+ var msg="NA";
+ var status="blue";
+  var Title=obj[i].ApplicationName;
+ var Metric=obj[i].Metric;
+ var MinValue=obj[i].MinValue;
+ var MaxValue=obj[i].MaxValue;
+if(Metric=="CPU")
+{
+	status="green";
+	msg=Title+" is Fine";
+	if(MinValue<=0 || MaxValue>=90)
+	{
+		status="red";
+		msg=Title+" is Down/Utilzed more";
+	}
+	if(MaxValue>=70)
+	{
+		status="orange";
+		msg=Title+" is Going to exceed more utilzation";
+	}
+}
+if(Metric=="Count")
+{
+	status="green";
+	msg=Title+" "+Metric+" Looks Fine";
+	if(MinValue<=0 || MaxValue>=200001)
+	{
+		status="red";
+		msg=Title+" "+Metric+" is very High";
+	}
+	if(MaxValue>=170001)
+	{
+		status="orange";
+		msg=Title+" "+Metric+" is Increasing more";
+	}
+}
+obj[i].Status=status;
+obj[i].Message=msg;
+}
+return obj;
+}
+
 function showObjectjQuery(obj) {
 obj=obj.sort(GetSortOrder("ApplicationName"));
 var arr = [];
@@ -149,22 +190,6 @@ var appColor="";
  }
 }
 
-var myObj;
-		$(document).ready(function () {	
-			$.ajax({
-				type: "GET",
-				url: "file.txt",
-				success: function (data) {
-					
-					myObj = JSON.parse(data);
-					showObjectjQuery(myObj);	
-					
-				},
-				error: function(x,y,z){
-					alert('An error has occurred:\n' + x.responseText + '\n' + y + '\n' + z);
-				}
-			});
-		});
 function DisplayPopup(app) {  
 var Obj= myObj.filter(el=>el.ApplicationName==app);
      document.getElementById('myModal').style.display='block';
@@ -175,6 +200,24 @@ var table_body = '<table id=\"customers\" border="1"><tr><th>ApplicationName</th
             table_body+='</table>';
           $('#tableDiv').html(table_body);
 } 
+
+var myObj;
+		$(document).ready(function () {	
+			$.ajax({
+				type: "GET",
+				url: "file.txt",
+				success: function (data) {
+					
+					myObj = JSON.parse(data);
+					myObj = transformData(myObj);
+					showObjectjQuery(myObj);	
+					
+				},
+				error: function(x,y,z){
+					alert('An error has occurred:\n' + x.responseText + '\n' + y + '\n' + z);
+				}
+			});
+		});
 		
     </script>
 
