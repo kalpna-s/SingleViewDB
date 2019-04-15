@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
 <title>JavaScript - read JSON from URL</title>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <style>
 .wrapper {
 	overflow: hidden;
@@ -193,11 +196,11 @@ var appColor="";
 function DisplayPopup(app) {  
 var Obj= myObj.filter(el=>el.ApplicationName==app);
      document.getElementById('myModal').style.display='block';
-var table_body = '<table id=\"customers\" border="1"><tr><th>ApplicationName</th><th>Metric</th><th>MaxValue</th><th>MinValue</th><th>Status</th><th>Message</th></tr>';    
+var table_body = '<table class="table"><thead><tr><th>ApplicationName</th><th>Metric</th><th>MaxValue</th><th>MinValue</th><th>Status</th><th>Message</th></tr></thead><tbody>';    
  for(var i=0;i<Obj.length;i++)
            { table_body+='<tr><td>'+Obj[i].ApplicationName+'</td><td>'+Obj[i].Metric+'</td><td>'+Obj[i].MaxValue+'</td><td>'+Obj[i].MinValue+'</td><td style=\"background-color:'+Obj[i].Status+';color:'+Obj[i].Status+'\">'+Obj[i].Status+'</td><td>'+Obj[i].Message+'</td></tr>';
           }
-            table_body+='</table>';
+            table_body+='</tbody></table>';
           $('#tableDiv').html(table_body);
 } 
 
