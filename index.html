@@ -196,11 +196,11 @@ var appColor="";
 function DisplayPopup(app) {  
 var Obj= myObj.filter(el=>el.ApplicationName==app);
      document.getElementById('myModal').style.display='block';
-var table_body = '<table class="table"><thead><tr><th>ApplicationName</th><th>Metric</th><th>MaxValue</th><th>MinValue</th><th>Status</th><th>Message</th></tr></thead><tbody>';    
+var table_body = '<div class="table-responsive"><table class="table"><thead><tr><th>ApplicationName</th><th>Metric</th><th>MaxValue</th><th>MinValue</th><th>Status</th><th>Message</th></tr></thead><tbody>';    
  for(var i=0;i<Obj.length;i++)
            { table_body+='<tr><td>'+Obj[i].ApplicationName+'</td><td>'+Obj[i].Metric+'</td><td>'+Obj[i].MaxValue+'</td><td>'+Obj[i].MinValue+'</td><td style=\"background-color:'+Obj[i].Status+';color:'+Obj[i].Status+'\">'+Obj[i].Status+'</td><td>'+Obj[i].Message+'</td></tr>';
           }
-            table_body+='</tbody></table>';
+            table_body+='</tbody></table></div>';
           $('#tableDiv').html(table_body);
 } 
 
