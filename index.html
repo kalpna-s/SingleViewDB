@@ -112,51 +112,6 @@ function GetSortOrder(prop) {
     }  
 } 
 
-function transformData(obj) {
- for(var i=0;i<obj.length;i++)
- {
- var msg="NA";
- var status="blue";
-  var Title=obj[i].ApplicationName;
- var Metric=obj[i].Metric;
- var MinValue=obj[i].MinValue;
- var MaxValue=obj[i].MaxValue;
-if(Metric=="CPU")
-{
-	status="green";
-	msg=Title+" is Fine";
-	if(MinValue<=0 || MaxValue>=90)
-	{
-		status="red";
-		msg=Title+" is Down/Utilzed more";
-	}
-	if(MaxValue>=70)
-	{
-		status="orange";
-		msg=Title+" is Going to exceed more utilzation";
-	}
-}
-if(Metric=="Count")
-{
-	status="green";
-	msg=Title+" "+Metric+" Looks Fine";
-	if(MinValue<=0 || MaxValue>=200001)
-	{
-		status="red";
-		msg=Title+" "+Metric+" is very High";
-	}
-	if(MaxValue>=170001)
-	{
-		status="orange";
-		msg=Title+" "+Metric+" is Increasing more";
-	}
-}
-obj[i].Status=status;
-obj[i].Message=msg;
-}
-return obj;
-}
-
 function showObjectjQuery(obj) {
 obj=obj.sort(GetSortOrder("ApplicationName"));
 var arr = [];
@@ -208,11 +163,10 @@ var myObj;
 		$(document).ready(function () {	
 			$.ajax({
 				type: "GET",
-				url: "https://hclo365-my.sharepoint.com/personal/kalpna_s_hcl_com/Documents/Notebooks/file.txt",
+				url: "file.txt",
 				success: function (data) {
 					
 					myObj = JSON.parse(data);
-					myObj = transformData(myObj);
 					showObjectjQuery(myObj);	
 					
 				},
