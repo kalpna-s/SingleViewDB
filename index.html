@@ -158,12 +158,12 @@ var table_body = '<div class="table-responsive"><table class="table"><thead><tr>
             table_body+='</tbody></table></div>';
           $('#tableDiv').html(table_body);
 } 
-
+var datestr = currentdate.getDate().toString() + (currentdate.getMonth()+1).toString()  + currentdate.getFullYear().toString() + currentdate.getHours().toString() + currentdate.getMinutes().toString() + currentdate.getSeconds().toString();
 var myObj;
 		$(document).ready(function () {	
 			$.ajax({
 				type: "GET",
-				url: "output.txt",
+				url: "output.txt?date="+datestr,
 				success: function (data) {
 					
 					myObj = JSON.parse(data);
