@@ -168,8 +168,8 @@ var datestr = currentdate.getDate().toString() + (currentdate.getMonth()+1).toSt
 				url: "output.json?date="+datestr,
 				success: function (data) {
 					
-					myObj = JSON.parse(data);
-					showObjectjQuery(myObj);	
+					//myObj = JSON.parse(data);
+					showObjectjQuery(data);	
 					
 				},
 				error: function(x,y,z){
