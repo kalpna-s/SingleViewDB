@@ -165,7 +165,7 @@ var datestr = currentdate.getDate().toString() + (currentdate.getMonth()+1).toSt
 		$(document).ready(function () {	
 			$.ajax({
 				type: "GET",
-				url: "output.json?date="+datestr,
+				url: "output.txt?date="+datestr,
 				success: function (data) {
 					
 					myObj = JSON.parse(data);
