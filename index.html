@@ -114,14 +114,14 @@ function GetSortOrder(prop) {
 } 
 
 function showObjectjQuery(obj) {
-obj=obj.sort(GetSortOrder("ApplicationName"));
+    obj = obj.sort(GetSortOrder("RootApp"));
 var arr = [];
 var cnt=0;
-var appName="";
+    var rootApp="";
 var appColor="";
  for(var i=0;i<obj.length;i++)
  {
- 			if(appName==obj[i].ApplicationName)
+     if (rootApp == obj[i].RootApp)
             {                
                 if(appColor!=obj[i].Status.toLowerCase())
                 {
@@ -137,9 +137,9 @@ var appColor="";
             }
             else
             {      
-            	appName=obj[i].ApplicationName;  
+         rootApp = obj[i].RootApp;  
             	appColor=obj[i].Status.toLowerCase();  
-                arr.push([obj[i].ApplicationName, obj[i].Status.toLowerCase()]);    
+         arr.push([obj[i].RootApp, obj[i].Status.toLowerCase()]);    
                 cnt++;              
             }		
  }
@@ -150,7 +150,7 @@ var appColor="";
 }
 
 function DisplayPopup(app) {  
-var Obj= myObj.filter(el=>el.ApplicationName==app);
+    var Obj = myObj.filter(el => el.RootApp==app);
      document.getElementById('myModal').style.display='block';
 var table_body = '<div class="table-responsive"><table class="table"><thead><tr><th>ApplicationName</th><th>Metric</th><th>MaxValue</th><th>MinValue</th><th>Status</th><th>Message</th></tr></thead><tbody>';    
  for(var i=0;i<Obj.length;i++)
